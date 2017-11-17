@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p ="http://www.springframework.org/schema/p"
+	xmlns:context ="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/beans/spring-context-3.0.xsd">
+
+	<!-- Import other sub xmls -->
+	<import resource="common/spring_common.xml"></import>
+	<import resource="module1/spring_module1.xml"></import>
+
+	<!-- For annotation scanning -->
+	<!-- <context:component-scan base-package="com.infinite.sol"></context:component-scan> -->
+
+	<!-- Hello World example beans -->
+	<bean id="helloBean" class="com.infinite.sol.hello.HelloSpring">
+		<property name="name" value="Amit" />
+	</bean>
+
+	<!-- Loose coupling example beans -->
+	<bean id="loosecouple_helper" class="com.infinite.sol.loosecouple.LoosecoupleHelper">
+		<property name="vehicle" ref="bmw"></property>
+	</bean>
+	
+	<bean id="bmw" class="com.infinite.sol.loosecouple.BMW"></bean>
+	<bean id="audi" class="com.infinite.sol.loosecouple.Audi"></bean>
+	
+	
+	<!-- Inject example beans -->
+	<bean id="inject_helper_set" class="com.infinite.sol.inject.InjectHelper">
+		<property name="bean" ref="setterbean"></property>
+	</bean>
+	
+	<bean id="inject_helper_const" class="com.infinite.sol.inject.InjectHelper">
+		<constructor-arg ref="constbean"></constructor-arg>
+	</bean>
+	
+	<bean id="setterbean" class="com.infinite.sol.inject.InjectBean">
+		<property name="msg" value="Setter Bean"></property>
+	</bean>
+	<bean id="constbean" class="com.infinite.sol.inject.InjectBean">
+		<property name="msg" value="Constructor Bean"></property>
+	</bean>
+	
+	
+	<!-- Inject examples beans different ways -->
+	<bean id="normalInjectBean" class="com.infinite.sol.inject.FullNameGenerator">
+		<property name="firstName">
+			<value>Harshal</value>
+		</property>
+		<property name="lastName">
+			<value>Mistry</value>
+		</property>
+	</bean>
+	
+	<bean id="attributeInjectBean" class="com.infinite.sol.inject.FullNameGenerator">
+		<property name="firstName" value="Manoj"></property>
+		<property name="lastName" value="Mistry"></property>
+	</bean>
+	
+	<bean id="pInjectBean" class="com.infinite.sol.inject.FullNameGenerator" p:firstName="Daxa" p:lastName="Mistry" />
+	
+	<!-- Inner bean example -->
+	<bean id="applicationBean" class="com.infinite.sol.inner.ApplicationBean">
+		<property name="databaseBean">
+			<bean id="sdfd" class="com.infinite.sol.inner.DatabaseBean">
+				<property name="dbUrl" value="localhsot:8080"></property>
+				<property name="dbUserName" value="root"></property>
+				<property name="dbPassword" value="password"></property>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- Scope bean example -->
+	<!-- No need to mention singleton explicitly as it is default scope -->
+	<bean id="singletonBean" class="com.infinite.sol.scopes.ScopeBean">
+		<property name="message" value="Single Bean"></property>
+	</bean>
+	
+	<bean id="prototypeBean" class="com.infinite.sol.scopes.ScopeBean" scope="prototype">
+		<property name="message" value="Prototype Bean"></property>
+	</bean>
+	
+	<!-- Ambiguity example -->
+	<bean id="personBean" class="com.infinite.sol.ambiguity.PersonBean">
+		<constructor-arg>
+			<value>18</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value>Harshal</value>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="personBean1" class="com.infinite.sol.ambiguity.PersonBean">
+		<constructor-arg type="java.lang.String">
+			<value>Harshal</value>
+		</constructor-arg>
+		<constructor-arg type="java.lang.String">
+			<value>128</value>
+		</constructor-arg>
+		<constructor-arg type="int">
+			<value>50</value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- Collections example -->
+	<bean id="collectionBean" class="com.infinite.sol.collections.CollectionBean">
+		<property name="list">
+			<list>
+				<value>1</value>
+				<ref bean="tempBean"></ref>
+				<bean id="tempBean1" class="com.infinite.sol.ambiguity.PersonBean">
+					<constructor-arg>
+						<value>18</value>
+					</constructor-arg>
+					<constructor-arg>
+						<value>Harshal</value>
+					</constructor-arg>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="tempBean" class="java.lang.Object"></bean>
+	
+</beans>
