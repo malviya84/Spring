@@ -1,18 +1,18 @@
-package com.infinite.sol.collections;
+package com.infinite.sol.inheritance;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class CollectionsMain {
+public class InheritanceMain {
 
 	public static void main(String[] args) {
 		
 		ApplicationContext context = new ClassPathXmlApplicationContext("springbeans.xml");
 		
-		CollectionBean collectionBean = (CollectionBean) context.getBean("collectionBean");
-		
-		System.out.println(collectionBean);
-		
+		EmployeeBean employee1 = (EmployeeBean) context.getBean("inheritanceBean");
+		EmployeeBean employee2 = (EmployeeBean) context.getBean("inheritanceBean1");
+		System.out.println(employee1);
+		System.out.println(employee2);
 		System.out.println("Done!");
 	}
 }

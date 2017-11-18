@@ -18,21 +18,23 @@ public class PersonBean {
 		this.age = age;
 	}
 	
-	public PersonBean(String name, int age, String address) {
+	public PersonBean(String name, String address, int age) {
 		super();
-		System.out.println("name-age-address invoked");
+		//System.out.println("name-address-age invoked");
 		this.name = name;
 		this.age = age;
 		this.address = address;
 	}
 	
-	public PersonBean(String name, String address, int age) {
+	public PersonBean(String name, int age, String address) {
 		super();
-		System.out.println("name-address-age invoked");
+		//System.out.println("name-age-address invoked");
 		this.name = name;
 		this.age = age;
 		this.address = address;
 	}
+	
+	
 
 	@Override
 	public String toString() {

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p ="http://www.springframework.org/schema/p"
-	xmlns:context ="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-	http://www.springframework.org/schema/context 
-	http://www.springframework.org/schema/beans/spring-context-3.0.xsd">
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:util="http://www.springframework.org/schema/util"
+   xmlns:p="http://www.springframework.org/schema/p"
+   xsi:schemaLocation="
+     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+     http://www.springframework.org/schema/util  http://www.springframework.org/schema/util/spring-util-3.1.xsd">
 
 	<!-- Import other sub xmls -->
 	<import resource="common/spring_common.xml"></import>
@@ -110,20 +109,198 @@
 	<bean id="collectionBean" class="com.infinite.sol.collections.CollectionBean">
 		<property name="list">
 			<list>
-				<value>1</value>
 				<ref bean="tempBean"></ref>
-				<bean id="tempBean1" class="com.infinite.sol.ambiguity.PersonBean">
-					<constructor-arg>
-						<value>18</value>
-					</constructor-arg>
-					<constructor-arg>
-						<value>Harshal</value>
-					</constructor-arg>
-				</bean>
+				<ref bean="tempBean1"></ref>
+				<ref bean="tempBean2"></ref>
+				<ref bean="tempBean3"></ref>
 			</list>
+		</property>
+		<property name="set">
+			<set>
+				<value>This is Set</value>
+				<ref bean="tempBean"></ref>
+				<bean class="com.infinite.sol.ambiguity.PersonBean">
+					<constructor-arg><value>21</value></constructor-arg>
+					<constructor-arg><value>Mistry</value></constructor-arg>
+				</bean>
+			</set>
+		</property>
+		<property name="map">
+			<map>
+				<entry key="key1" value="value1"></entry>
+				<entry key="key2" value-ref="tempBean"></entry>
+				<entry key="key3">
+					<bean class="com.infinite.sol.ambiguity.PersonBean">
+						<constructor-arg><value>25</value></constructor-arg>
+						<constructor-arg><value>Suthar</value></constructor-arg>
+					</bean>
+				</entry>
+			</map>
+		</property>
+		<property name="properties">
+			<props>
+				<prop key="prop1">value1</prop>
+				<prop key="prop2">value2</prop>
+				<prop key="prop3">value3</prop>
+			</props>
 		</property>
 	</bean>
 	
 	<bean id="tempBean" class="java.lang.Object"></bean>
+	<bean id="tempBean1" class="java.lang.Object"></bean>
+	<bean id="tempBean2" class="java.lang.Object"></bean>
+	<bean id="tempBean3" class="java.lang.Object"></bean>
+	
+	<!-- ListFactoryBean example -->
+	<bean id="listFactoryBean" class="com.infinite.sol.collections.CollectionBean">
+		<property name="list" ref="refbean">
+		</property>
+	</bean>
+	
+	<bean  id="refbean" class="org.springframework.beans.factory.config.ListFactoryBean">
+				<property name="targetListClass"><value>java.util.ArrayList</value></property>
+				<property name="sourceList">
+					<list>
+						<value>1</value>
+						<value>2</value>
+						<value>3</value>
+						<value>4</value>
+					</list>
+				</property>
+			</bean>
+	
+	<!-- Util:list example -->
+	<bean id="listFactoryBean1" class="com.infinite.sol.collections.CollectionBean">
+		<property name="list">
+			<util:list list-class="java.util.ArrayList">
+				<value>list1 - util</value>
+				<value>list2 - util</value>
+				<value>list3 - util</value>
+				<value>list4 - util</value>
+			</util:list>
+		</property>
+	</bean>
+	
+	<!-- SetFactoryBean example -->
+	<bean id="setFactoryBean" class="com.infinite.sol.collections.CollectionBean">
+		<property name="set">
+			<bean class="org.springframework.beans.factory.config.SetFactoryBean">
+				<property name="targetSetClass" value="java.util.HashSet"></property>
+				<property name="sourceSet">
+					<set>
+						<value>set1</value>
+						<value>set2</value>
+						<value>set3</value>
+						<value>set4</value>
+					</set>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- Util:set example -->
+	<bean id="setFactoryBean1" class="com.infinite.sol.collections.CollectionBean">
+		<property name="set">
+			<util:set set-class="java.util.HashSet">
+				<value>set1 - util</value>
+				<value>set2 - util</value>
+				<value>set3 - util</value>
+				<value>set4 - util</value>
+			</util:set>
+		</property>
+	</bean>
+	
+	<!-- MapFactoryBean example -->
+	<bean id="mapFactoryBean" class="com.infinite.sol.collections.CollectionBean">
+		<property name="map">
+			<bean class="org.springframework.beans.factory.config.MapFactoryBean">
+				<property name="targetMapClass" value="java.util.HashMap"></property>
+				<property name="sourceMap">
+					<map>
+						<entry key="key1" value="value1" />
+						<entry key="key2" value="value2"/>
+						<entry key="key3" value="value3"/>
+						<entry key="key4" value="value4"/>
+					</map>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- Util:map example -->
+	<bean id="mapFactoryBean1" class="com.infinite.sol.collections.CollectionBean">
+		<property name="map">
+			<util:map map-class="java.util.HashMap">
+				<entry key="key1-util" value="value1-util"/>
+				<entry key="key2-util" value="value2-util"/>
+				<entry key="key3-util" value="value3-util"/>
+				<entry key="key4-util" value="value4-util"/>
+			</util:map>
+		</property>
+	</bean>
+	
+	
+	<!-- external Properties file example -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>database.properties</value>
+		</property>
+	</bean>
+	
+	<bean id="propertyExampleBean" class="comm.infinite.sol.property.PropertyExampleBean">
+		<property name="url" value="${database.url}"></property>
+		<property name="username" value="${database.username}"></property>
+		<property name="password" value="${database.password}"></property>
+	</bean>
+	
+	<!-- Inheritance example -->
+	<bean id="simpleBaseBean" class="com.infinite.sol.inheritance.EmployeeBean">
+		<property name="country" value="India"></property>
+	</bean>
+	<bean id="abstractBaseBean" class="com.infinite.sol.inheritance.EmployeeBean" abstract="true">
+		<property name="country" value="China"></property>
+	</bean>
+	<bean id="abstractBaseBeanWithoutClass" abstract="true">
+		<property name="country" value="India"></property>
+	</bean>
+	
+	<bean id="inheritanceBean" parent="abstractBaseBean">
+		<property name="name" value="Harshal updated"></property>
+		<property name="age" value="27"></property>
+	</bean>
+	
+	<bean id="inheritanceBean1" class="com.infinite.sol.inheritance.EmployeeBean" parent="abstractBaseBeanWithoutClass">
+		<property name="name" value="Harshal"></property>
+		<property name="age" value="27"></property>
+		<property name="country" value="UK"></property>
+	</bean>
+	
+	<!-- Dependency check example -->
+	<!-- 
+		none - no check
+		simple - check for any property primitives
+		object - check for any object
+		all - check for all
+	 -->
+	 <!-- This will work as by default none dependency check, so removing any property set will also work -->
+	<!-- <bean id="dependencyCheckBean" class="com.infinite.sol.dependencycheck.DependencyCheckBean">
+		<property name="property1" value="1"></property>
+		<property name="property2" value="2"></property>
+		<property name="property3" value="3"></property>
+	</bean>
+	
+	<bean id="dependencyCheckBean" class="com.infinite.sol.dependencycheck.DependencyCheckBean" dependecy-check="simple">
+		<property name="property2" value="2"></property>
+		<property name="property3" value="3"></property>
+	</bean> -->
+	
+	<!-- PrePostActions example -->
+	<bean id="prePostActionsBean" class="com.infinite.sol.prepostactions.PrePostActionsBean">
+		<property name="msg" value="Hello"></property>
+	</bean>
+	
+	<bean id="prePostActionBeanWithCustomMethods" class="com.infinite.sol.prepostactions.PrePostActionsBean" init-method="customInitMethod" destroy-method="customDestroyMethod">
+		<property name="msg" value="Custom msg"></property>
+	</bean>
 	
 </beans>

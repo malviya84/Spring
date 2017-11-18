@@ -20,7 +20,7 @@ public class ScopeMain {
 		
 		ScopeBean singletonBean1 = (ScopeBean) context.getBean("singletonBean");
 		ScopeBean prototypeBean1 = (ScopeBean) context.getBean("prototypeBean");
-		
+		System.out.println(prototypeBean);
 		System.out.println(singletonBean1);
 		System.out.println(prototypeBean1);
 		

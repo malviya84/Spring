@@ -36,9 +36,10 @@ public class CollectionBean {
 	public void setProperties(Properties properties) {
 		this.properties = properties;
 	}
+	
 	@Override
 	public String toString() {
-		return "CollectionBean [properties=" + properties + "]";
+		return "CollectionBean [list=" + list + "\n set=" + set + "\n map=" + map + "\n properties=" + properties + "]";
 	}	
 	
 }
